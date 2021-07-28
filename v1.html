@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>TEST MATRIX</title>
+        <link rel="stylesheet" href="css.css">
+        <canvas id="canvas"></canvas>
+        <style>
+            body{background-color: black;}
+            canvas{display: block;}
+        </style>
+    </head>
+    <body>
+        <div class="container_desc">
+           <p>Color <select name="color" id="color" required></p>
+            <option value="green">green</option>
+            <option value="red">red</option>
+            <option value="white">white</option>
+            <option value="black">black</option>
+            <option value="lime">lime</option>
+            </select>
+
+            <p>Color backGround<select name="color_bg" id="color_bg" required></p>
+                <option value="black">black</option>
+                <option value="green">green</option>
+                <option value="red">red</option>
+                <option value="white">white</option>
+                <option value="lime">lime</option>
+                </select>
+
+                <p>Color Falling<select name="color_hd" id="color_hd" required></p>
+                   <option value="red">red</option>
+                    <option value="black">black</option>
+                    <option value="green">green</option>
+                    
+                    <option value="white">white</option>
+                    <option value="lime">lime</option>
+                    </select>
+
+                    <p>Speed <select name="speed" id="speed" required></p>
+                        
+                        <option value="5">Slow</option>
+                        <option value="4">Normal</option>
+                        <option value="3">Middle</option>
+                        <option value="2">High</option>
+                        <option value="1">Most High</option>
+                        <option value="6">Most Slow</option>
+                        </select>
+
+          
+            
+           <input type="button" value="STOP" onclick="stop()">
+           <input type="button" value="RELOAD" onclick="reload()">
+        </div>
+
+
+        <script>
+           
+function getter(){
+    var color_of_head=document.getElementById("color").value;
+    return color_of_head;
+}
+
+function getter3(){
+    var color_of_first=document.getElementById("color_hd").value;
+    return color_of_first;
+}
+
+function get_bg(){
+    var bg_color=document.getElementById("color_bg").value;
+    return bg_color;
+}
+var calc=0;
+            var font_size=30;
+            var canvas=document.getElementById("canvas");
+            var canvas_dim=canvas.getContext("2d");
+
+            canvas.height=window.innerHeight-190;
+            canvas.width=window.innerWidth;
+
+            var stolbci=canvas.width/font_size;
+            var strochki=canvas.height/font_size;
+
+            var stroki=1;
+            //////////////////////////////////////////////////////////////////////
+                    array_of_items = [];
+                   for (var i = 0; i < 126; i++)
+                   array_of_items[i]=String.fromCharCode(i);
+            ///////////////////////////////////////////////////////////////////////////////////
+            var array_of_num=[];
+            var vibor_ryadochka=[];
+            var dlina_padeniya=[];
+              
+            if(calc==0){
+            var speed=document.getElementById("speed").value;
+    var change_speed;
+    var speedy=speed;
+    switch(speedy){
+         
+         case '5':change_speed=120;break;
+         case '4':change_speed=90;break;
+         case '3':change_speed=50;break;
+         case '2':change_speed=35;break;
+         case '1':change_speed=18;break;
+         
+
+     }
+ // clearInterval(interval);
+
+var accept=false;var interval= setInterval(draw,change_speed);calc++;} 
+  
+  async function draw(){
+    var ready=false;
+      var background_color=get_bg();
+     var color_of_head=getter();
+     var color_of_first=getter3();
+     var red;
+     var green;
+     var blue;
+     var opacity=0.65;
+     switch(background_color){
+         
+         case 'green':red=0;green=255;blue=0;break;
+         case 'red':red=255;green=0;blue=0;break;
+         case 'white':red=255;green=255;blue=255;break;
+         case 'black':red=0;green=0;blue=0;break;
+         case 'lime':red=20;green=255;blue=40;break;
+         
+
+     }
+     canvas_dim.fillStyle="rgba("+red+","+green+","+blue+","+opacity+")";
+                canvas_dim.fillRect(0,0,canvas.width,canvas.height);
+                  
+                     
+                canvas_dim.font=font_size +"px Algerian"; //backGround();
+                /////////////////////////////////////////////////////////////////////
+                for(var w=0;w<stolbci;w++){
+                    vibor_ryadochka[w]=Math.floor(Math.random()*stolbci);}
+                    var vr=Math.floor(Math.random()*stolbci);
+                ////////////////////////////////////////////////////////////////////
+
+                ////////////////////////////////////////////////////////////////////
+                for(var v=0;v<strochki;v++){
+                    dlina_padeniya[v]=Math.floor(Math.random()*strochki);}
+                    var dp=Math.floor(Math.random()*strochki);
+                    var begin_dp=Math.floor(Math.random()*dp);
+                ///////////////////////////////////////////////////////////////////
+               var outside=begin_dp;
+               
+                    for(var v=begin_dp;v<=dp;v++){
+                       //await sleep(20);
+                     paint_first(array_of_items,color_of_head,color_of_first,vr,v,red,green,blue);
+                     await sleep(30);
+                     multiply_elements(array_of_items,color_of_head,vr,v,ready,color_of_first,red,green,blue);
+                     await sleep(30);
+                            //next step of elem
+                        //     if(v==dp){
+                        // var sign=Math.floor(Math.random()*(array_of_items.length-0));
+                        
+                        //  canvas_dim.fillText(array_of_items[sign],vr*font_size,v+1*font_size);
+                        //  //await sleep(30);
+                        // }
+
+                        // else{
+                             var sign=Math.floor(Math.random()*(array_of_items.length-0));
+                        
+                       // canvas_dim.fillText(array_of_items[sign],vr*font_size,v*font_size);
+                        await sleep(100);//}
+                            
+
+                        
+                   
+                        }
+               ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                }
+
+async function paint_first(array_of_items,color_of_head,color_of_first,vr,v,red,green,blue){
+    //canvas_dim.fillStyle="rgba(0,0,0,0.7)";
+    
+    canvas_dim.fillStyle="rgb("+red+","+green+","+blue+",0.9)";canvas_dim.fillRect(0,0,canvas.width,canvas.height);
+    canvas_dim.fillStyle= color_of_first;
+    var sign=Math.floor(Math.random()*(array_of_items.length-0));
+            //(resolve,500)-time of multiply choice of elem
+            //await sleep(40);
+                canvas_dim.fillText(array_of_items[sign],vr*font_size,(v+1)*font_size);
+                await sleep(20);
+}
+
+
+                async function multiply_elements(array_of_items,color_of_head,vr,v,ready,color_of_first,red,green,blue){
+    var arr_beg=0;//the starting point of array[]
+    await sleep(20);
+    //await new Promise((resolve, reject) => setTimeout(resolve,0));
+        for(arr_beg;arr_beg<=5;arr_beg++){
+          
+            //canvas_dim.fillStyle="rgba(0,0,0,0.5)";
+            canvas_dim.fillStyle="rgba("+red+","+green+","+blue+",0.65)";
+              // if(arr_beg==5){
+                   //canvas_dim.fillStyle="rgba(0,0,0,0.6)";
+                   // canvas_dim.fillStyle= color_of_first; 
+                //}
+               //else{
+                    
+                canvas_dim.fillStyle= color_of_head;  
+              
+               // }
+                 
+                var sign=Math.floor(Math.random()*(array_of_items.length-0));
+            //(resolve,500)-time of multiply choice of elem
+            //await sleep(40);
+                canvas_dim.fillText(array_of_items[sign],vr*font_size,(v)*font_size);
+                //opacity_func=opacity_func-koef;
+            await sleep(100);//await sleep(20);
+
+            //canvas_dim.fillStyle= color_of_first;  
+              
+               // }
+                 
+               // var sign=Math.floor(Math.random()*(array_of_items.length-0));
+            //(resolve,500)-time of multiply choice of elem
+            //await sleep(40);
+              //  canvas_dim.fillText(array_of_items[sign],vr*font_size,(v)*font_size);
+               // await sleep(200);
+               //continue;
+
+        }}
+
+        function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+                   function reload(){
+                   // location.reload();
+                   clearInterval(interval);
+                  //accept=true;
+                  speed=document.getElementById("speed").value;
+    change_speed;
+    speedy=speed;
+    switch(speedy){
+        case '6':change_speed=550;break;
+         case '5':change_speed=400;break;
+         case '4':change_speed=250;break;
+         case '3':change_speed=150;break;
+         case '2':change_speed=100;break;
+         case '1':change_speed=50;break;
+         
+
+     }
+  
+interval= setInterval(draw,change_speed);
+                }
+                    
+
+            
+            function stop(){
+                clearInterval(interval);
+               // location.reload();
+                //setTimeout(()=>{},2000);
+            }
+          
+           
+           
+          
+        </script>
+
+    </body>
+
+
+
+
+
+</html>
